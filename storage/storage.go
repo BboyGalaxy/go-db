@@ -1,5 +1,7 @@
 package storage
 
+//this document works to make a connection to the db
+
 import (
 	"database/sql"
 	"fmt"
@@ -14,6 +16,7 @@ var (
 	once sync.Once
 )
 
+// NewPostgresDB make the connection to the postgres db with a singleton way
 func NewPostgresDB() {
 	once.Do(func() {
 		var err error
