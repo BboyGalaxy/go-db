@@ -28,12 +28,12 @@ type Service struct {
 	storage Storage
 }
 
-// NewService return a pointer of service
+// NewService return a pointer of service // Constructor of Service
 func NewService(s Storage) *Service {
 	return &Service{s}
 }
 
-// Migrate is used for migrate product
+// Migrate is used for migrate product // Create table products
 func (s *Service) Migrate() error {
 	return s.storage.Migrate()
 }

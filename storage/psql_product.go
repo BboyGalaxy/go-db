@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	psqlCreateProduct = `CREATE TABLE IF NOT EXISTS products(
+	psqlMigrateProduct = `CREATE TABLE IF NOT EXISTS products(
 		id SERIAL NOT NULL,
 		name VARCHAR(25) NOT NULL,
 		observations VARCHAR(100),
@@ -29,7 +29,7 @@ func NewPsqlProduct(db *sql.DB) *PsqlProduct {
 
 // Migrate implements the interface product.storage
 func (p *PsqlProduct) Migrate() error {
-	stmt, err := p.db.Prepare(psqlCreateProduct)
+	stmt, err := p.db.Prepare(psqlMigrateInvoiceHeader)
 	if err != nil {
 		return err
 	}
