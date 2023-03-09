@@ -1,24 +1,37 @@
 package main
 
 import (
+	"log"
+
+	"github.com/BboyGalaxy/go-db/pkg/invoice"
+	"github.com/BboyGalaxy/go-db/pkg/invoiceheader"
+	"github.com/BboyGalaxy/go-db/pkg/invoiceitem"
 	"github.com/BboyGalaxy/go-db/storage"
 )
 
 func main() {
 	storage.NewPostgresDB()
 
-	/*storageProduct := storage.NewPsqlProduct(storage.Pool())
-	serviceProduct := product.NewService(storageProduct)
+	storageHeader := storage.NewPsqlInvoiceHeader(storage.Pool())
+	storageItems := storage.NewPsqlInvoiceItem(storage.Pool())
+	storageInvoice := storage.NewPsqlInvoice(
+		storage.Pool(),
+		storageHeader,
+		storageItems,
+	)
 
-	if err := serviceProduct.Migrate(); err != nil {
-		log.Fatalf("product.Migrate: %v", err)
-	}*/
+	m := &invoice.Model{
+		Header: &invoiceheader.Model{
+			Client: "Alexys",
+		},
+		Items: invoiceitem.Models{
+			&invoiceitem.Model{ProdcutID: 1},
+		},
+	}
 
-	/*storageInvoiceHeader := storage.NewPsqlInvoiceHeader(storage.Pool())
-	serviceInvoiceHeader := invoiceheader.NewService(storageInvoiceHeader)
-
-	if err := serviceInvoiceHeader.Migrate(); err != nil {
-		log.Fatalf("invoiceHeader.Migrate: %v", err)
-	}*/
+	serviceInvoice := invoice.NewService(storageInvoice)
+	if err := serviceInvoice.Create(m); err != nil {
+		log.Fatalf("invoice.Create: %v", err)
+	}
 
 }
